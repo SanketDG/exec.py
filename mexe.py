@@ -3,7 +3,7 @@ import sys
 import os
 import stat
 
-shebang = "#!/usr/bin/env python\n"
+shebang = "\n#!/usr/bin/env python\n"
 
 
 def contains_shebang(f):
@@ -15,13 +15,13 @@ def contains_shebang(f):
 
 def put_shebang(f):
     if not contains_shebang(f):
-            original_text = f.read()
-            f.seek(0)
-            f.write(shebang + original_text)
+        original_text = f.read()
+        f.seek(0, 0)
+        f.write(shebang + original_text)
 
 
 def make_exec(fname):
-    with open(fname, 'w+') as f:
+    with open(fname, 'rb+') as f:
         put_shebang(f)
     os.chmod(fname, os.stat(fname).st_mode | stat.S_IXOTH | stat.S_IXGRP |
              stat.S_IXUSR)
